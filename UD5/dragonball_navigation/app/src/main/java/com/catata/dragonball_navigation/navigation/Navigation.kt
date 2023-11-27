@@ -1,36 +1,71 @@
 package com.catata.dragonball_navigation.navigation
 
+import android.content.res.Configuration
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.catata.dragonball_navigation.ui.screens.detail_screen.DetailScreen
+import com.catata.dragonball_navigation.ui.screens.main_screen.MainScreen
+import com.catata.dragonball_navigation.ui.screens.main_screen.MainScreenLandscape
+import com.catata.dragonball_navigation.ui.screens.main_screen.MainScreenPortrait
+import com.catata.dragonball_navigation.ui.screens.splash_screen.SplashScreen
 
 @Composable
 fun Navigation() {
+
     //Constante para gestionar el estado y se debe propagar entre todas las pantallas
     val navController = rememberNavController()
 
     //Elemento que conoce las diferentes pantallas y cual es la primera en lanzarse
     NavHost(
         navController = navController,
-        startDestination = Routes.FirstScreen.route
+        startDestination = Routes.SplashScreen.route
     ){
+
         //Definición de la primera pantalla
         composable(
-            route = Routes.FirstScreen.route
+            route = Routes.SplashScreen.route
         ){
-            FirstScreen(navController)
+            SplashScreen(navController)
+        }
+
+        //Definición de la primera pantalla
+        composable(
+            route = Routes.MainScreen.route
+        ){
+            if(LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT){
+                /*Vertical*/
+                MainScreenPortrait(navController)
+            }else {
+                /*Horizontal*/
+                MainScreenLandscape()
+            }
         }
 
         //Definición pantalla que recibe un parámetro de tipo String
         composable(
-            route = Routes.Secondcreen.route,
+            route = Routes.DetailScreen.route,
             arguments = listOf(
-                navArgument(name = "name"){
-                    type= NavType.StringType
+                navArgument(name = "id"){
+                    type= NavType.IntType
                 }
             )
         ){
-            val argument = it.arguments?.getString("name")
+            val argument = it.arguments?.getInt("id")
             requireNotNull(argument)
-            SecondScreen(navController, argument)
+            if(LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT){
+                /*Vertical*/
+                DetailScreen(navController, argument)
+            }else {
+                /*Horizontal*/
+                MainScreenLandscape()
+            }
+
         }
     }
+
 }

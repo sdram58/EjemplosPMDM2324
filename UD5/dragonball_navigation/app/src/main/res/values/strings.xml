@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Dragon Ball</string>
+    <string name="dragon_ball">Dragon Ball\n</string>
 </resources>

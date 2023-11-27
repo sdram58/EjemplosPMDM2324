@@ -1,4 +1,4 @@
-package com.catata.dragonball_navigation.ui.screens
+package com.catata.dragonball_navigation.ui.screens.commons
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
@@ -43,7 +43,7 @@ import com.catata.dragonball_navigation.model.Character
 fun CharacterDetail(
         modifier: Modifier = Modifier,
         scrollState: LazyListState,
-        characterId: Int = 0
+        characterId: Int = -1
     ) {
         Column(
             modifier = Modifier
@@ -51,7 +51,7 @@ fun CharacterDetail(
                 .then(modifier)
         ) {
             // Si no se ha seleccionado aún un personaje se indicará mensaje con una Card
-            if (characterId == 0) {
+            if (characterId == -1) {
                 Card(
                     elevation = CardDefaults.cardElevation(
                         defaultElevation = 6.dp

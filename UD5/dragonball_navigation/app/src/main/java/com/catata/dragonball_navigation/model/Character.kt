@@ -70,7 +70,7 @@ data class Character(
             val character = getCharacters().filter { character ->
                 character.id == id
             }
-            return character[0]
+            return if(character.isNotEmpty()) character[0] else charactersList[0]
         }
 
         // Función que devuelve el id del primer elemento de la List de Character

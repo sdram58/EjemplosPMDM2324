@@ -1,4 +1,4 @@
-package com.catata.dragonball_navigation.ui.screens
+package com.catata.dragonball_navigation.ui.screens.main_screen
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import com.catata.dragonball_navigation.model.Character

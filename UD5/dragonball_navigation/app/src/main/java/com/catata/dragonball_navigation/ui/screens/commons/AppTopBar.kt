@@ -1,4 +1,4 @@
-package com.catata.dragonball_navigation.ui.screens
+package com.catata.dragonball_navigation.ui.screens.commons
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.height
@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.catata.p2dragonball.R
+import com.catata.dragonball_navigation.R
 
 // Componente propio para la TopAppBar del Scaffold usado en la APP
 //  Los comentarios son del primer diseño implementado para la TopAppBar
