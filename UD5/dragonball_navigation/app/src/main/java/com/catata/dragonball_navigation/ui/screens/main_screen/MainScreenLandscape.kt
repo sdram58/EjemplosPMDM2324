@@ -35,47 +35,40 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreenLandscape() {
-    DragonBallNavigationTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+        // Variable de estado para guardar el Character del que se está mostrando su información
+        var characterId by rememberSaveable { mutableStateOf(-1) }
+        // Variable de estado para poder llevar al inicio el scroll de la información del Character al seleccionar otro Character
+        val scrollState = rememberLazyListState()
+        // Variable de estado necesaria para poder mover el scroll en segundo plano
+        val coroutineScope = rememberCoroutineScope()
+        // La pantalla con los personajes se divide en dos: una lista de personajes y la información de un personaje
+        Row(
+            modifier = Modifier.fillMaxSize()
         ) {
-            // Variable de estado para guardar el Character del que se está mostrando su información
-            var characterId by rememberSaveable { mutableStateOf(-1) }
-            // Variable de estado para poder llevar al inicio el scroll de la información del Character al seleccionar otro Character
-            val scrollState = rememberLazyListState()
-            // Variable de estado necesaria para poder mover el scroll en segundo plano
-            val coroutineScope = rememberCoroutineScope()
-            // La pantalla con los personajes se divide en dos: una lista de personajes y la información de un personaje
-            Row(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                // Componente propio que mostrará la lista de personajes.
-                //  Implementa State Hoisting para poder informar al componente de este archivo (DragonBallContent)
-                //  del id del personaje sobre el que se pulse
-                DragonBallList(
-                    modifier = Modifier.weight(2.5f),
-                    value = characterId,
-                    onValueChange = {
-                        characterId = it
-                        // El código siguiente es necesario para mover al inicio el scroll de la información del personaje
+            // Componente propio que mostrará la lista de personajes.
+            //  Implementa State Hoisting para poder informar al componente de este archivo (DragonBallContent)
+            //  del id del personaje sobre el que se pulse
+            DragonBallList(
+                modifier = Modifier.weight(2.5f),
+                value = characterId,
+                onValueChange = {
+                    characterId = it
+                    // El código siguiente es necesario para mover al inicio el scroll de la información del personaje
 
-                        coroutineScope.launch {
-                            scrollState.animateScrollToItem(0, 0)
-                        }
+                    coroutineScope.launch {
+                        scrollState.animateScrollToItem(0, 0)
                     }
-                )
-                // Componente propio que mostrará la información del personaje seleccionado en la lista
-                //  se le envía el id del personaje y también el la variable de estado para el scroll ya que el scroll se gestiona
-                //  desde la lista de personajes (componente externo al LazyColumn que contiene este componente propio)
-                CharacterDetail(
-                    characterId = characterId,
-                    scrollState = scrollState,
-                    modifier = Modifier
-                        .weight(7.5f)
-                        .fillMaxHeight()
-                )
-            }
+                }
+            )
+            // Componente propio que mostrará la información del personaje seleccionado en la lista
+            //  se le envía el id del personaje y también el la variable de estado para el scroll ya que el scroll se gestiona
+            //  desde la lista de personajes (componente externo al LazyColumn que contiene este componente propio)
+            CharacterDetail(
+                characterId = characterId,
+                scrollState = scrollState,
+                modifier = Modifier
+                    .weight(7.5f)
+                    .fillMaxHeight()
+            )
         }
-    }
 }

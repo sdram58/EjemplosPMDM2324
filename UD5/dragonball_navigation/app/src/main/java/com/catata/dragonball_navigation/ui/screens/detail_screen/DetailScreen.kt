@@ -36,5 +36,4 @@ import com.catata.dragonball_navigation.ui.screens.main_screen.MainScreenPortrai
 @Composable fun DetailScreen(navController: NavController, characterId:Int) {
     // La pantalla con los personajes se divide en dos: una lista de personajes y la información de un personaje
     CharacterDetail(scrollState = rememberLazyListState(), characterId = characterId )
-
 }

@@ -1,6 +1,7 @@
 package com.catata.dragonball_navigation.navigation
 
 import android.content.res.Configuration
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.navigation.NavType
@@ -8,11 +9,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.catata.dragonball_navigation.ui.screens.AppContent
 import com.catata.dragonball_navigation.ui.screens.detail_screen.DetailScreen
-import com.catata.dragonball_navigation.ui.screens.main_screen.MainScreen
 import com.catata.dragonball_navigation.ui.screens.main_screen.MainScreenLandscape
 import com.catata.dragonball_navigation.ui.screens.main_screen.MainScreenPortrait
 import com.catata.dragonball_navigation.ui.screens.splash_screen.SplashScreen
+
 
 @Composable
 fun Navigation() {
@@ -39,10 +41,23 @@ fun Navigation() {
         ){
             if(LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT){
                 /*Vertical*/
-                MainScreenPortrait(navController)
+                AppContent(
+                    navController = navController,
+                    shouldAppear = true,
+                    title = null) {
+
+                    MainScreenPortrait(navController = navController)
+                }
+
             }else {
                 /*Horizontal*/
-                MainScreenLandscape()
+                AppContent(
+                    navController = navController,
+                    shouldAppear = true,
+                    title = null) {
+
+                    MainScreenLandscape()
+                }
             }
         }
 
@@ -59,10 +74,25 @@ fun Navigation() {
             requireNotNull(argument)
             if(LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT){
                 /*Vertical*/
-                DetailScreen(navController, argument)
+                AppContent(
+                    navController = navController,
+                    shouldAppear = true,
+                    hasBackArrow = true,
+                    title = null) {
+
+                    DetailScreen(navController, argument)
+                }
+
             }else {
                 /*Horizontal*/
-                MainScreenLandscape()
+                AppContent(
+                    navController = navController,
+                    shouldAppear = true,
+                    title = null) {
+
+                    MainScreenLandscape()
+                }
+
             }
 
         }

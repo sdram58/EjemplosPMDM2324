@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.catata.dragonball_navigation.navigation.Navigation
 import com.catata.dragonball_navigation.ui.screens.commons.AppTopBar
 import com.catata.dragonball_navigation.ui.screens.commons.CharacterDetail
@@ -40,7 +41,12 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppContent(content: @Composable ()->Unit) {
+fun AppContent(navController: NavController,
+               title: (@Composable () -> Unit)?,
+               hasBackArrow:Boolean = false,
+               shouldAppear: Boolean,
+               content: @Composable ()->Unit) {
+
     DragonBallNavigationTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -50,18 +56,25 @@ fun AppContent(content: @Composable ()->Unit) {
 
             Scaffold(
                 // Toda la TopBar se ha movido a un componente propio
-                topBar = { AppTopBar() },
-                floatingActionButton = {
-                    // El botón solo se mostrará si la variable de estado viewAuthor es false
-                    if (!viewAuthor) {
-                        FloatingActionButton(onClick = { viewAuthor = !viewAuthor }) {
-                            Icon(
-                                imageVector = Icons.Default.Person,
-                                contentDescription = "Autor"
-                            )
+                topBar = {
+                    if(shouldAppear)
+                        AppTopBar(
+                            title = title,
+                            hasBackArrow = hasBackArrow
+                    ){clicked ->
+                        if(clicked) navController.popBackStack()
+                    } },
+                    floatingActionButton = {
+                        // El botón solo se mostrará si la variable de estado viewAuthor es false
+                        if (shouldAppear) {
+                            FloatingActionButton(onClick = { viewAuthor = !viewAuthor }) {
+                                Icon(
+                                    imageVector = Icons.Default.Person,
+                                    contentDescription = "Autor"
+                                )
+                            }
                         }
-                    }
-                },
+                    },
                 floatingActionButtonPosition = FabPosition.End
             ) {
                 // El contenido de la pantalla se mostrará en un Box para poder situar encima de toda la información del autor de la APP

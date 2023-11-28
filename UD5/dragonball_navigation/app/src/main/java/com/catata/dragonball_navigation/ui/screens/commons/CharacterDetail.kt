@@ -48,7 +48,8 @@ fun CharacterDetail(
         Column(
             modifier = Modifier
                 .padding(4.dp)
-                .then(modifier)
+                .then(modifier),
+            verticalArrangement = Arrangement.Top
         ) {
             // Si no se ha seleccionado aún un personaje se indicará mensaje con una Card
             if (characterId == -1) {

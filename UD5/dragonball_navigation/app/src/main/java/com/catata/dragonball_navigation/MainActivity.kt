@@ -12,9 +12,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             // Al cargar la APP se cargará la única pantalla que tiene la APP
-            AppContent{
-                Navigation()
-            }
+            Navigation()
         }
     }
 }
