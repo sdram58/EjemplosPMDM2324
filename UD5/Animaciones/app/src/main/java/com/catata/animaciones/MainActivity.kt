@@ -296,10 +296,13 @@ fun Content() {
 
     }*/
 
+    
     var expanded by rememberSaveable { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .wrapContentHeight()
+            .background(Color.Red)
             .animateContentSize(
                 animationSpec = tween(
                     durationMillis = 2000,
@@ -307,6 +310,7 @@ fun Content() {
                 )
             )
     ) {
+
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
