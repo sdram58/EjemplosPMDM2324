@@ -41,11 +41,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppContent(navController: NavController,
-               title: (@Composable () -> Unit)?,
-               hasBackArrow:Boolean = false,
-               shouldAppear: Boolean,
-               content: @Composable ()->Unit) {
+fun AppContent(appContentData: AppContentData) {
 
     DragonBallNavigationTheme {
         Surface(
@@ -57,16 +53,16 @@ fun AppContent(navController: NavController,
             Scaffold(
                 // Toda la TopBar se ha movido a un componente propio
                 topBar = {
-                    if(shouldAppear)
+                    if(appContentData.shouldAppear)
                         AppTopBar(
-                            title = title,
-                            hasBackArrow = hasBackArrow
+                            title = appContentData.title,
+                            hasBackArrow = appContentData.hasBackArrow
                     ){clicked ->
-                        if(clicked) navController.popBackStack()
+                        if(clicked) appContentData.navController.popBackStack()
                     } },
                     floatingActionButton = {
                         // El botón solo se mostrará si la variable de estado viewAuthor es false
-                        if (shouldAppear) {
+                        if (appContentData.shouldAppear) {
                             FloatingActionButton(onClick = { viewAuthor = !viewAuthor }) {
                                 Icon(
                                     imageVector = Icons.Default.Person,
@@ -82,10 +78,10 @@ fun AppContent(navController: NavController,
                     modifier = Modifier
                         .padding(it)
                         .fillMaxSize(),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.TopCenter
                 ) {
 
-                    content()
+                    appContentData.content()
 
                     // Dependiendo del valor de viewAuthor se mostrará o no un Box con la información del autor de la APP
                     if (viewAuthor) {
@@ -104,3 +100,11 @@ fun AppContent(navController: NavController,
         }
     }
 }
+
+data class AppContentData(
+    val navController: NavController,
+    val title: (@Composable () -> Unit)?,
+    val hasBackArrow:Boolean = false,
+    val shouldAppear: Boolean,
+    val content: @Composable ()->Unit
+)
