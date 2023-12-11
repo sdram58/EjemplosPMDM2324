@@ -54,6 +54,10 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.TextButton
 import androidx.compose.ui.text.style.TextAlign
 import com.catata.animaciones.ui.theme.AnimacionesTheme
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlin.math.exp
 
 class MainActivity : ComponentActivity() {
@@ -336,6 +340,7 @@ fun Content() {
 
     
 }
+
 
 @Preview(showBackground = true)
 @Composable
