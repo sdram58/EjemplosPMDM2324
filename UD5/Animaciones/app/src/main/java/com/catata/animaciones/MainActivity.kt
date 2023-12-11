@@ -66,6 +66,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    //AQUI
                     Content()
                 }
             }
@@ -343,3 +344,137 @@ fun ContentPreview() {
         Content()
     }
 }
+
+@Composable
+fun Content1() {
+    var animateColor by rememberSaveable {
+        mutableStateOf(false)
+    }
+    val backgroundColor by animateColorAsState(
+        if(animateColor) Color(0xFFFFA020) else Color(0xFF40C0FF)
+    )
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(onClick = { animateColor = !animateColor }) {
+            Text(text = "Camabiar Color")
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+        Text(
+            text = "Hola Rick!",
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .background(backgroundColor)
+                .padding(20.dp)
+        )
+    }
+    
+}
+
+@Composable
+fun Content2() {
+    var animateAlpha by rememberSaveable {
+        mutableStateOf(true)
+    }
+    val alpha:Float by animateFloatAsState(
+        if(animateAlpha) 1f else 0.3f
+    )
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(onClick = { animateAlpha = !animateAlpha }) {
+            Text(text = "Cambiar Opacidad")
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+        Box(
+            modifier = Modifier
+                .graphicsLayer(alpha = alpha)
+                .fillMaxWidth()
+                .background(Color(0xFFFFA020))
+        ) {
+            Text(
+                text = "Hola Rick!",
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(20.dp)
+            )
+        }
+    }
+}
+
+@Composable
+fun Content3() {
+    var visible by rememberSaveable {
+        mutableStateOf(false)
+    }
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(onClick = { visible = !visible }) {
+            Text(text = if(visible) "Ocultar" else "Mostrar")
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+        AnimatedVisibility(visible = visible) {
+            Text(
+                text = "Hola Rick!",
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .background(Color(0xFFFFA020))
+                    .padding(20.dp)
+                    .fillMaxWidth()
+            )
+        }
+    }
+}
+
+@Composable
+fun Content4() {
+    var times by rememberSaveable {
+        mutableStateOf(0)
+    }
+    Row {
+        Button(onClick = { times++ }) {
+            Text(text = "+1")
+        }
+        Spacer(modifier = Modifier.width(10.dp))
+        Button(onClick = { times-- }) {
+            Text(text = "-1")
+        }
+
+        AnimatedContent(targetState = times, label ="") {
+            Text(text = "Cuenta $it",
+                modifier = Modifier.padding(10.dp))
+        }
+
+        AnimatedContent(
+            targetState = times,
+            //Personalizando la animación
+            transitionSpec = {
+                //targetState: nuevo valor de la variable de estado
+                //initialState: valor anterior de la variable de estado
+
+                if(targetState<initialState){
+                    (slideInVertically { height -> height} + fadeIn())
+                        .togetherWith(slideOutVertically{height -> -height*2} + fadeOut())
+                }else{
+                    (slideInVertically { height -> -height} + fadeIn())
+                        .togetherWith(slideOutVertically{height -> height*2} + fadeOut())
+                }
+            },
+            label ="") {targetCount ->
+            Text(text = "$targetCount",
+                modifier = Modifier.padding(10.dp))
+        }
+    }
+}
+
+
+
+//AQUI

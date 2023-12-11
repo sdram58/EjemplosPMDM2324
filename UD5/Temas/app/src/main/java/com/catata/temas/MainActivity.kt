@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TemasTheme {
-                val systemUiController = rememberSystemUiController()
+               val systemUiController = rememberSystemUiController()
                 SideEffect {
                     systemUiController.setStatusBarColor(
                         color = Color(0xFF0080FF),
@@ -31,10 +31,10 @@ class MainActivity : ComponentActivity() {
 
                     systemUiController.isStatusBarVisible = false
 
-                    /*systemUiController.setNavigationBarColor(
+                    systemUiController.setNavigationBarColor(
                         color = Color(0xFF00FF80),
                         darkIcons = true
-                    )*/
+                    )
                 }
                 // A surface container using the 'background' color from the theme
                 Surface(
