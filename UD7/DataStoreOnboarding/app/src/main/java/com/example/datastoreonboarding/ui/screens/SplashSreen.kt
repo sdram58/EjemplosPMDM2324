@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -17,13 +19,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.datastoreonboarding.R
+import com.example.datastoreonboarding.model.UserData
 import com.example.datastoreonboarding.navigation.Routes
 import com.example.datastoreonboarding.viewmodel.PreferencesViewModel
 import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(navController:NavController, prefsViewModel: PreferencesViewModel) {
+
+    val user:UserData by prefsViewModel.user.observeAsState(UserData("", ""))
+
     LaunchedEffect(key1 = true){
+        prefsViewModel.loadFullName()
         //Aquí deberíamos hacer la carga del sistema.
         //Consultar una BDD, acceder a una API, etc..
         //Lo simulamos con un delay de 5s
@@ -32,10 +39,14 @@ fun SplashScreen(navController:NavController, prefsViewModel: PreferencesViewMod
         navController.popBackStack()
 
         //Comprobamos si hay algún dato guardado si lo hay vamos a la MainScreen
-        if(prefsViewModel.load)
+        if( user.name.isNullOrBlank() && user.email.isNullOrBlank()){
+            navController.navigate(Routes.Onboarding1Screen.route)
+        }else{
+            navController.navigate(Routes.MainScreen.route)
+        }
 
 
-        navController.navigate(Routes.Onboarding1Screen.route)
+
     }
 
     Splash()

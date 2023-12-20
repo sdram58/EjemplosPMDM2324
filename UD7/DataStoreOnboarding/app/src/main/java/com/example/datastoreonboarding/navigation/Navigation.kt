@@ -40,7 +40,7 @@ fun Navigation(prefsViewModel: PreferencesViewModel) {
         }
 
         composable(
-            route = Routes.SplashScreen.route
+            route = Routes.MainScreen.route
         ){
             MainScreen(prefsViewModel)
         }

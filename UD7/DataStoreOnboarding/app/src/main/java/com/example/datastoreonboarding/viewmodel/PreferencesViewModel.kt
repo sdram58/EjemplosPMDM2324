@@ -16,7 +16,7 @@ class PreferencesViewModel(application: Application): AndroidViewModel(applicati
     private val preferences = AppPreferences(application.applicationContext)
 
     private val _user = MutableLiveData<UserData>(UserData("",""))
-    val fullname: LiveData<UserData> = _user
+    val user: LiveData<UserData> = _user
 
 
     //Método que llama a AppPreferences para almacenar la preferencia en el archivo de preferencias
